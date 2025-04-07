@@ -1,7 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#F4F6F9">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Foreground Service"
+            android:textSize="26sp"
+            android:textColor="#222222"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/ic_music"
+            android:layout_marginBottom="24dp"
+            android:contentDescription="Music Icon" />
+
+        <Button
+            android:onClick="startMusic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Start Music (Foreground)"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#36F321"
+            android:padding="14dp"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:onClick="stopMusic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stop Music"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#F436C1"
+            android:padding="14dp"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:onClick="back"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back to Main"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#AF4C4C"
+            android:padding="14dp" />
+    </LinearLayout>
+</ScrollView>
