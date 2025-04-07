@@ -1,47 +1,53 @@
 package com.example.servicelabapp
 
+import android.content.*
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.servicelabapp.ui.theme.ServiceLabAppTheme
+import android.view.View
+import android.widget.EditText
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            ServiceLabAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var characterEditText: EditText
+    private lateinit var serviceIntent: Intent
+
+    private val receiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            val char = intent?.getCharExtra("randomCharacter", '?') ?: '?'
+            characterEditText.setText(char.toString())
         }
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    ServiceLabAppTheme {
-        Greeting("Android")
+        characterEditText = findViewById(R.id.editText_random)
+        serviceIntent = Intent(this, RandomCharacterService::class.java)
+    }
+
+    fun startService(view: View) {
+        startService(serviceIntent)
+    }
+
+    fun stopService(view: View) {
+        stopService(serviceIntent)
+        characterEditText.setText("")
+    }
+
+    fun goToForeground(view: View) {
+        startActivity(Intent(this, ForegroundActivity::class.java))
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val filter = IntentFilter("my.custom.action.tag.lab6")
+        ContextCompat.registerReceiver(this, receiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        unregisterReceiver(receiver)
     }
 }
